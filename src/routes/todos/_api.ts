@@ -1,5 +1,6 @@
-import type { Request } from '@sveltejs/kit';
 import type { Locals } from '$lib/types';
+import type { EndpointOutput, Request } from '@sveltejs/kit';
+import type { MaybePromise } from '@sveltejs/kit/types/helper';
 
 /*
 	This module is used by the /todos.json and /todos/[uid].json
@@ -14,7 +15,11 @@ import type { Locals } from '$lib/types';
 
 const base = 'https://api.svelte.dev';
 
-export async function api(request: Request<Locals>, resource: string, data?: {}) {
+export async function api(
+	request: Request<Locals>,
+	resource: string,
+	data?: unknown
+): Promise<MaybePromise<EndpointOutput>> {
 	// user must have a cookie set
 	if (!request.locals.userid) {
 		return { status: 401 };
