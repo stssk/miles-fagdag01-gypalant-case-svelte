@@ -4,13 +4,13 @@
 
 	// see https://kit.svelte.dev/docs#loading
 	export const load: Load = async ({ fetch }) => {
-		const res = await fetch('/todos.json');
+		const res = await fetch('/characters.json');
 
 		if (res.ok) {
-			const todos = await res.json();
+			const characters = await res.json();
 
 			return {
-				props: { todos }
+				props: { characters }
 			};
 		}
 
@@ -26,100 +26,103 @@
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
 
-	type Todo = {
+	type Character = {
 		uid: string;
 		created_at: Date;
-		text: string;
-		done: boolean;
+		name: string;
+		inPlay: boolean;
 		pending_delete: boolean;
 	};
 
-	export let todos: Todo[];
+	export let characters: Character[];
 
 	async function patch(res: Response) {
-		const todo = await res.json();
+		const character = await res.json();
 
-		todos = todos.map((t) => {
-			if (t.uid === todo.uid) return todo;
-			return t;
+		characters = characters.map((c) => {
+			if (c.uid === character.uid) return character;
+			return c;
 		});
 	}
 </script>
 
 <svelte:head>
-	<title>Todos</title>
+	<title>Characters</title>
 </svelte:head>
 
-<div class="todos">
-	<h1>Todos</h1>
+<div class="characters">
+	<h1>Characters</h1>
 
 	<form
 		class="new"
-		action="/todos.json"
+		action="/characters.json"
 		method="post"
 		use:enhance={{
 			result: async (res, form) => {
 				const created = await res.json();
-				todos = [...todos, created];
+				characters = [...characters, created];
 
 				form.reset();
 			}
 		}}
 	>
-		<input name="text" aria-label="Add todo" placeholder="+ tap to add a todo" />
+		<input name="name" aria-label="Add character" placeholder="+ tap to add a character" />
 	</form>
 
-	{#each todos as todo (todo.uid)}
+	{#each characters as character (character.uid)}
 		<div
-			class="todo"
-			class:done={todo.done}
+			class="character"
+			class:inPlay={character.inPlay}
 			transition:scale|local={{ start: 0.7 }}
 			animate:flip={{ duration: 200 }}
 		>
 			<form
-				action="/todos/{todo.uid}.json?_method=patch"
+				action="/characters/{character.uid}.json?_method=patch"
 				method="post"
 				use:enhance={{
 					pending: (data) => {
-						todo.done = !!data.get('done');
+						character.inPlay = !!data.get('inPlay');
 					},
 					result: patch
 				}}
 			>
-				<input type="hidden" name="done" value={todo.done ? '' : 'true'} />
-				<button class="toggle" aria-label="Mark todo as {todo.done ? 'not done' : 'done'}" />
+				<input type="hidden" name="inPlay" value={character.inPlay ? '' : 'true'} />
+				<button
+					class="toggle"
+					aria-label="Mark character as {character.inPlay ? 'not in play' : 'in play'}"
+				/>
 			</form>
 
 			<form
-				class="text"
-				action="/todos/{todo.uid}.json?_method=patch"
+				class="name"
+				action="/characters/{character.uid}.json?_method=patch"
 				method="post"
 				use:enhance={{
 					result: patch
 				}}
 			>
-				<input aria-label="Edit todo" type="text" name="text" value={todo.text} />
-				<button class="save" aria-label="Save todo" />
+				<input aria-label="Edit character" type="text" name="name" value={character.name} />
+				<button class="save" aria-label="Save character" />
 			</form>
 
 			<form
-				action="/todos/{todo.uid}.json?_method=delete"
+				action="/characters/{character.uid}.json?_method=delete"
 				method="post"
 				use:enhance={{
-					pending: () => (todo.pending_delete = true),
+					pending: () => (character.pending_delete = true),
 					result: () => {
-						todos = todos.filter((t) => t.uid !== todo.uid);
+						characters = characters.filter((c) => c.uid !== character.uid);
 					}
 				}}
 			>
-				<button class="delete" aria-label="Delete todo" disabled={todo.pending_delete} />
+				<button class="delete" aria-label="Delete character" disabled={character.pending_delete} />
 			</form>
 		</div>
 	{/each}
 </div>
 
 <style>
-	.todos {
+	.characters {
 		width: 100%;
 		max-width: var(--column-width);
 		margin: var(--column-margin-top) auto 0 auto;
@@ -150,7 +153,7 @@
 		text-align: center;
 	}
 
-	.todo {
+	.character {
 		display: grid;
 		grid-template-columns: 2rem 1fr 2rem;
 		grid-gap: 0.5rem;
@@ -164,26 +167,26 @@
 		transition: filter 0.2s, transform 0.2s;
 	}
 
-	.done {
+	.inPlay {
 		transform: none;
 		opacity: 0.4;
 		filter: drop-shadow(0px 0px 1px rgba(0, 0, 0, 0.1));
 	}
 
-	form.text {
+	form.name {
 		position: relative;
 		display: flex;
 		align-items: center;
 		flex: 1;
 	}
 
-	.todo input {
+	.character input {
 		flex: 1;
 		padding: 0.5em 2em 0.5em 0.8em;
 		border-radius: 3px;
 	}
 
-	.todo button {
+	.character button {
 		width: 2em;
 		height: 2em;
 		border: none;
@@ -199,7 +202,7 @@
 		background-size: 1em auto;
 	}
 
-	.done .toggle {
+	.inPlay .toggle {
 		background-image: url("data:image/svg+xml,%3Csvg width='22' height='16' viewBox='0 0 22 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 1.5L7.4375 14.5L1.5 8.5909' stroke='%23676778' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 	}
 
@@ -221,7 +224,7 @@
 		background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 2H3.5C2.67158 2 2 2.67157 2 3.5V20.5C2 21.3284 2.67158 22 3.5 22H20.5C21.3284 22 22 21.3284 22 20.5V3.5C22 2.67157 21.3284 2 20.5 2Z' fill='%23676778' stroke='%23676778' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M17 2V11H7.5V2H17Z' fill='white' stroke='white' stroke-width='1.5' stroke-linejoin='round'/%3E%3Cpath d='M13.5 5.5V7.5' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3Cpath d='M5.99844 2H18.4992' stroke='%23676778' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E%0A");
 	}
 
-	.todo input:focus + .save,
+	.character input:focus + .save,
 	.save:focus {
 		transition: opacity 0.2s;
 		opacity: 1;
