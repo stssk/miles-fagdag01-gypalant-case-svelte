@@ -115,7 +115,6 @@
 			<a sveltekit:prefetch href={`/customize/${character.name}`}>Character customizer</a>
 		</div>
 	{/each}
-	<GnomeView gnome={testGnome}></GnomeView>
 </div>
 
 <style>

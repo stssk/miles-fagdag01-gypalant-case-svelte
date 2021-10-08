@@ -1,10 +1,9 @@
 <script context="module" lang="ts">
-
 	// see https://kit.svelte.dev/docs#loading
 	export function load({ page }) {
 		return {
 			props: {
-				characterName: page.params.name,
+				characterName: page.params.name
 			}
 		};
 	}
@@ -12,9 +11,10 @@
 
 <script lang="ts">
 	import { browser, dev } from '$app/env';
+	import GnomeView from '$lib/components/GnomeView.svelte';
 
 	export let characterName;
-	
+
 	// we don't need any JS on this page, though we'll load
 	// it in dev so that we get hot module replacement...
 	export const hydrate = dev;
@@ -27,7 +27,7 @@
 	// it so that it gets served as a static asset in prod
 	export const prerender = true;
 	console.log();
-
+	let testGnome: Gnome;
 </script>
 
 <svelte:head>
@@ -35,7 +35,8 @@
 </svelte:head>
 
 <div class="content">
-    Customize {characterName}!
+	Customize {characterName}!
+	<GnomeView gnome={testGnome} />
 </div>
 
 <style>
