@@ -11,6 +11,7 @@
 
 <script lang="ts">
 	import { browser, dev } from '$app/env';
+import GnomeCustomizer from '$lib/components/GnomeCustomizer.svelte';
 	import GnomeView from '$lib/components/GnomeView.svelte';
 
 	export let characterName;
@@ -37,6 +38,7 @@
 <div class="content">
 	Customize {characterName}!
 	<GnomeView gnome={testGnome} />
+	<GnomeCustomizer></GnomeCustomizer>
 </div>
 
 <style>

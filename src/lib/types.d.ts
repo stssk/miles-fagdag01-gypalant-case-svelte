@@ -17,7 +17,7 @@ export type Character = {
 
 export type GnomeHead = {
 	uid: string;
-	colour: Colour;
+	colour: string;
 }
 
 export type Gnome = {
@@ -26,28 +26,24 @@ export type Gnome = {
 	gnomeBody: GnomeBody;
 };
 
-export const colors: string[] = ['Red', 'Green', 'Purple', 'Pink'];
-// const colours = colors as const;
-// export type Colour = typeof colours[number];
-
 export type BodyType = "Square" | "Round" | "UpTriangle" | "DownTriangle"
 
 export type HatType = "Triangle" | "TopHat" | "Beanie"
 
 export type Hat = {
 	uid: string;
-	colour: Colour;
+	colour: string;
 	image: URL;
 };
 
 export type FacialHair = {
 	uid: string;
-	colour: Colour;
+	colour: string;
 	image: URL;
 };
 
 export type GnomeBody = {
 	uid: string;
-	colour: Colour;
+	colour: string;
 	bodyType: BodyType;
 };

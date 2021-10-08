@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { colors } from "$lib/types";
-
+    import { colors } from '$lib/consts'
+    export let name;
+    const colours = colors;
 </script>
 
 <div class="colour-picker"> 
-    {#each colors as colour}
+    {#each colours as colour}
         <div style="background-color: {colour};" class="colour-square"></div>
     {/each}
 </div>
