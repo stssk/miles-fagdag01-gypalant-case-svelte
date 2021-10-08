@@ -25,14 +25,7 @@
 <script lang="ts">
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-
-	type Character = {
-		uid: string;
-		created_at: Date;
-		name: string;
-		inPlay: boolean;
-		pending_delete: boolean;
-	};
+	import type { Character } from '$lib/types';
 
 	export let characters: Character[];
 
