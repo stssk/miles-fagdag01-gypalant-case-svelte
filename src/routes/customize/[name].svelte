@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import { browser, dev } from '$app/env';
-import GnomeCustomizer from '$lib/components/GnomeCustomizer.svelte';
+	import GnomeCustomizer from '$lib/components/GnomeCustomizer.svelte';
 	import GnomeView from '$lib/components/GnomeView.svelte';
 
 	export let characterName;
@@ -36,9 +36,16 @@ import GnomeCustomizer from '$lib/components/GnomeCustomizer.svelte';
 </svelte:head>
 
 <div class="content">
-	Customize {characterName}!
-	<GnomeView gnome={testGnome} />
-	<GnomeCustomizer></GnomeCustomizer>
+	<h2>Customize {characterName}!</h2>
+	
+	<div class="char-creation">
+		<div class="gnome-view">
+			<GnomeView gnome={testGnome} />
+		</div>
+		<div class="gnome-customizer">	
+			<GnomeCustomizer></GnomeCustomizer>
+		</div>
+	</div>
 </div>
 
 <style>
@@ -46,5 +53,20 @@ import GnomeCustomizer from '$lib/components/GnomeCustomizer.svelte';
 		width: 100%;
 		max-width: var(--column-width);
 		margin: var(--column-margin-top) auto 0 auto;
+	}
+
+	.char-creation {
+		margin-top: 50px;
+		display: grid;
+        grid:
+        "viewer picker" auto
+	}
+
+	.gnome-view {
+		grid-area: "viewer";
+	}
+
+	.gnome-customizer {
+		grid-area: "picker"
 	}
 </style>
