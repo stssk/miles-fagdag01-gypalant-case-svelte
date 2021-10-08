@@ -61,7 +61,7 @@
 			}
 		}}
 	>
-		<input name="name" aria-label="Add character" placeholder="+ tap to add a character" />
+		<input class="add-character" name="name" aria-label="Add character" placeholder="+ tap to add a character" />
 	</form>
 
 	{#each characters as character (character.uid)}
@@ -122,7 +122,8 @@
 	}
 
 	.new input {
-		font-size: 28px;
+		font-size: 20px;
+		font-family: var(--font-mono);
 		width: 100%;
 		padding: 0.5em 1em 0.3em 1em;
 		box-sizing: border-box;
@@ -145,8 +146,13 @@
 		font-size: large;
 		font-family: 'Press Start 2P', cursive;
 		color: black;
+
+	}
+	.character:hover {
+			background: var(--heading-color);
 	}
 
+	
 	.inPlay {
 		transform: none;
 		opacity: 0.4;
