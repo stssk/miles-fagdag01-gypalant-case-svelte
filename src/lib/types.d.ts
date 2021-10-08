@@ -26,7 +26,8 @@ export type Gnome = {
 	gnomeBody: GnomeBody;
 };
 
-export type Colour = "Red" | "Green" | "Purple" | "Pink"
+export const colours = ["Red", "Green", "Purple", "Pink"] as const;
+export type Colour = typeof colours[number];
 
 export type BodyType = "Square" | "Round" | "UpTriangle" | "DownTriangle"
 
