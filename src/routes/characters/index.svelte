@@ -65,29 +65,13 @@
 	</form>
 
 	{#each characters as character (character.uid)}
-		<div
+		<a
 			class="character"
 			class:inPlay={character.inPlay}
 			transition:scale|local={{ start: 0.7 }}
 			animate:flip={{ duration: 200 }}
+			sveltekit:prefetch href={`/customize/${character.name}`}
 		>
-			<form
-				action="/characters/{character.uid}.json?_method=patch"
-				method="post"
-				use:enhance={{
-					pending: (data) => {
-						character.inPlay = !!data.get('inPlay');
-					},
-					result: patch
-				}}
-			>
-				<input type="hidden" name="inPlay" value={character.inPlay ? '' : 'true'} />
-				<button
-					class="toggle"
-					aria-label="Mark character as {character.inPlay ? 'not in play' : 'in play'}"
-				/>
-			</form>
-
 			<form
 				class="name"
 				action="/characters/{character.uid}.json?_method=patch"
@@ -96,8 +80,7 @@
 					result: patch
 				}}
 			>
-				<input aria-label="Edit character" type="text" name="name" value={character.name} />
-				<button class="save" aria-label="Save character" />
+			{character.name}
 			</form>
 
 			<form
@@ -112,14 +95,13 @@
 			>
 				<button class="delete" aria-label="Delete character" disabled={character.pending_delete} />
 			</form>
-			<a sveltekit:prefetch href={`/customize/${character.name}`}>Character customizer</a>
-		</div>
+		</a>
 	{/each}
 </div>
 
 <style>
 	.characters {
-		width: 100%;
+		width: -webkit-fill-available;
 		max-width: var(--column-width);
 		margin: var(--column-margin-top) auto 0 auto;
 		line-height: 1;
@@ -151,16 +133,18 @@
 
 	.character {
 		display: grid;
-		grid-template-columns: 2rem 1fr 2rem;
-		grid-gap: 0.5rem;
+		grid-template-columns: auto 2rem;
+		padding: 20px;
 		align-items: center;
 		margin: 0 0 0.5rem 0;
-		padding: 0.5rem;
 		background-color: white;
 		border-radius: 8px;
 		filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.1));
 		transform: translate(-1px, -1px);
 		transition: filter 0.2s, transform 0.2s;
+		font-size: large;
+		font-family: 'Press Start 2P', cursive;
+		color: black;
 	}
 
 	.inPlay {
