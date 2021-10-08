@@ -1,14 +1,12 @@
 <script lang="ts">
-	import { Colour, colours } from '$lib/types';
+    import { colors } from "$lib/types";
 
-	export let colour: Colour;
 </script>
 
 <div class="colour-picker"> 
-    {#each colours as colour}
-        <div class="colour-square"></div>
+    {#each colors as colour}
+        <div style="background-color: {colour};" class="colour-square"></div>
     {/each}
-
 </div>
 
 <style>
@@ -19,8 +17,7 @@
 	}
 
     .colour-square {
-        width: 50 px;
+        width: 50px;
         height: 50px;
-        
     }
 </style>
