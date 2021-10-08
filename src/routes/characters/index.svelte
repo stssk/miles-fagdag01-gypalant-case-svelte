@@ -112,7 +112,7 @@
 			>
 				<button class="delete" aria-label="Delete character" disabled={character.pending_delete} />
 			</form>
-			<a sveltekit:prefetch href={`/character-customizer/${character.uid}`}>Character customizer</a>
+			<a sveltekit:prefetch href={`/customize/${character.name}`}>Character customizer</a>
 		</div>
 	{/each}
 	<GnomeView gnome={testGnome}></GnomeView>
