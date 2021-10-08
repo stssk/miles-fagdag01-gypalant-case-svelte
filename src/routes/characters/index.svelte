@@ -25,9 +25,11 @@
 <script lang="ts">
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-	import type { Character } from '$lib/types';
+	import type { Character, Gnome } from '$lib/types';
+	import GnomeView from '$lib/components/GnomeView.svelte';
 
 	export let characters: Character[];
+	export let testGnome: Gnome;
 
 	async function patch(res: Response) {
 		const character = await res.json();
@@ -112,6 +114,7 @@
 			</form>
 		</div>
 	{/each}
+	<GnomeView gnome={testGnome}></GnomeView>
 </div>
 
 <style>
