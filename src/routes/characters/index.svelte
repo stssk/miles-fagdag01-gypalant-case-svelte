@@ -164,6 +164,7 @@
 		flex: 1;
 		padding: 0.5em 2em 0.5em 0.8em;
 		border-radius: 3px;
+		color: white;
 	}
 
 	.character button {
